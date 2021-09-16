@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:login_page_with_mobx/ui/view/login_page.dart';
+import 'package:login_page_with_mobx/ui/view/welcome_page.dart';
 import 'package:login_page_with_mobx/utils/app_routes.dart';
-import 'package:login_page_with_mobx/view/login_page.dart';
-import 'package:login_page_with_mobx/view/welcome_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),

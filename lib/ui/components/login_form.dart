@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -54,6 +55,42 @@ class LoginForm extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                   borderSide: BorderSide(
                     color: const Color(0xFFE87653),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerRight,
+            padding: EdgeInsets.only(right: 30),
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                'Esqueceu sua senha?',
+                style: TextStyle(color: Colors.grey[400]),
+              ),
+            ),
+          ),
+          Container(
+            height: 48,
+            width: 348,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  const Color(0xFFE87653),
+                  const Color(0xFFFD6713),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(30),
+            ),
+            child: InkWell(
+              onTap: () {},
+              child: Center(
+                child: Text(
+                  'Log In',
+                  style: GoogleFonts.ptSans(
+                    fontSize: 20,
+                    color: Colors.white,
                   ),
                 ),
               ),

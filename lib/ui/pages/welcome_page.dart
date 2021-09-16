@@ -40,7 +40,7 @@ class WelcomePage extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               Container(
-                height: 45,
+                height: 48,
                 width: 330,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -65,7 +65,7 @@ class WelcomePage extends StatelessWidget {
                 ),
               ),
               Container(
-                height: 45,
+                height: 48,
                 width: 330,
                 margin: const EdgeInsets.symmetric(vertical: 15),
                 decoration: BoxDecoration(
