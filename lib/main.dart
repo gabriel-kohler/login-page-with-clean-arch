@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:login_page_with_mobx/utils/app_routes.dart';
+import 'package:login_page_with_mobx/view/login_page.dart';
 import 'package:login_page_with_mobx/view/welcome_page.dart';
 
 void main() {
@@ -13,8 +15,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: WelcomePage(),
+      routes: {
+        AppRoutes.WELCOME_PAGE: (context) => WelcomePage(),
+        AppRoutes.LOGIN_PAGE: (context) => LoginPage(),
+      },
     );
   }
 }
-

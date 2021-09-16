@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:login_page_with_mobx/utils/app_routes.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class WelcomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30),
               ),
               child: InkWell(
-                onTap: () {},
+                onTap: () => Navigator.of(context).pushNamed(AppRoutes.LOGIN_PAGE),
                 child: Center(
                   child: Text(
                     'Sign In',
