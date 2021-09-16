@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -7,6 +8,7 @@ abstract class HttpClient {
   Future<void>? request({
     required String? url,
     required String? method,
+    Map body,
   });
 }
 
@@ -19,13 +21,12 @@ class RemoteAuthentication {
 
   RemoteAuthentication({required this.httpClient, required this.url});
 
-  Future<void>? auth() async {
-    await httpClient!.request(url: url, method: 'post');
+  Future<void>? auth(AuthenticationParams params) async {
+    await httpClient!.request(url: url, method: 'post', body: params.toJson());
   }
 }
 
 void main() {
-
   HttpClientSpy? httpClient;
   String? url;
   RemoteAuthentication? sut;
@@ -35,17 +36,20 @@ void main() {
     url = faker.internet.httpsUrl();
 
     //SUT (system under test)
-    sut = RemoteAuthentication(httpClient: httpClient, url: url); 
+    sut = RemoteAuthentication(httpClient: httpClient, url: url);
   });
 
   test('Should call HttpClient with correct values', () async {
-    
+    final params = AuthenticationParams(
+      email: faker.internet.email(),
+      password: faker.internet.password(),
+    );
 
-    await sut!.auth(); //act
+    await sut!.auth(params); //act
 
     verify(httpClient!.request(
-      url: url,
-      method: 'post',
-    )); 
+        url: url,
+        method: 'post',
+        body: {'email': params.email, 'password': params.password}));
   });
 }
