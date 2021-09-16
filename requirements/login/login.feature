@@ -12,4 +12,4 @@ E manter o usuário conectado
 Cenário: Credenciais inválidas
 Dado que o cliente informou credenciais inválidas
 Quando solicitar para fazer login
-Então o sistema deve retornar uma mensagem de erro
+Então o sistema deve retornar uma mensagem de erro 

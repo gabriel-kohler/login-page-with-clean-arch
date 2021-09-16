@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:login_page_with_mobx/components/login_form.dart';
+import 'package:login_page_with_mobx/ui/components/login_form.dart';
 
 class LoginPage extends StatelessWidget {
   @override

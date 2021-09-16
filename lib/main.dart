@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_page_with_mobx/ui/view/login_page.dart';
-import 'package:login_page_with_mobx/ui/view/welcome_page.dart';
+import 'package:login_page_with_mobx/ui/pages/login_page.dart';
+import 'package:login_page_with_mobx/ui/pages/welcome_page.dart';
 import 'package:login_page_with_mobx/utils/app_routes.dart';
 
 void main() {
