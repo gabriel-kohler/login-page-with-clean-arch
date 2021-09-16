@@ -6,6 +6,7 @@ import 'package:test/test.dart';
 abstract class HttpClient {
   Future<void>? request({
     required String url,
+    required String method,
   });
 }
 
@@ -19,19 +20,23 @@ class RemoteAuthentication {
   RemoteAuthentication({required this.httpClient, required this.url});
 
   Future<void>? auth() async {
-    await httpClient.request(url: url);
+    await httpClient.request(url: url, method: 'post');
   }
 }
 
 void main() {
-  test('Should call HttpClient with correct URL', () async {
+  test('Should call HttpClient with correct values', () async {
     final httpClient = HttpClientSpy();
-    final _url = faker.internet.httpsUrl();
+    final url = faker.internet.httpsUrl();
     //SUT (system under test)
-    final sut = RemoteAuthentication(httpClient: httpClient, url: _url); //arrange
+    final sut =
+        RemoteAuthentication(httpClient: httpClient, url: url); //arrange
 
     await sut.auth(); //act
 
-    verify(httpClient.request(url: _url)); //assert
+    verify(httpClient.request(
+      url: url,
+      method: 'post',
+    )); //assert
   });
 }
