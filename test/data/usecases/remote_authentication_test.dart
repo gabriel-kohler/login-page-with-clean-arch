@@ -5,8 +5,8 @@ import 'package:test/test.dart';
 
 abstract class HttpClient {
   Future<void>? request({
-    required String url,
-    required String method,
+    required String? url,
+    required String? method,
   });
 }
 
@@ -14,29 +14,38 @@ abstract class HttpClient {
 class HttpClientSpy extends Mock implements HttpClient {}
 
 class RemoteAuthentication {
-  final HttpClient httpClient;
-  final String url;
+  final HttpClient? httpClient;
+  final String? url;
 
   RemoteAuthentication({required this.httpClient, required this.url});
 
   Future<void>? auth() async {
-    await httpClient.request(url: url, method: 'post');
+    await httpClient!.request(url: url, method: 'post');
   }
 }
 
 void main() {
-  test('Should call HttpClient with correct values', () async {
-    final httpClient = HttpClientSpy();
-    final url = faker.internet.httpsUrl();
+
+  HttpClientSpy? httpClient;
+  String? url;
+  RemoteAuthentication? sut;
+
+  setUp(() {
+    httpClient = HttpClientSpy();
+    url = faker.internet.httpsUrl();
+
     //SUT (system under test)
-    final sut =
-        RemoteAuthentication(httpClient: httpClient, url: url); //arrange
+    sut = RemoteAuthentication(httpClient: httpClient, url: url); 
+  });
 
-    await sut.auth(); //act
+  test('Should call HttpClient with correct values', () async {
+    
 
-    verify(httpClient.request(
+    await sut!.auth(); //act
+
+    verify(httpClient!.request(
       url: url,
       method: 'post',
-    )); //assert
+    )); 
   });
 }
