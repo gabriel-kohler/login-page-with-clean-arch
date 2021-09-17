@@ -1,30 +1,20 @@
-import 'package:faker/faker.dart';
-import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
+import 'package:faker/faker.dart';
+import 'package:mockito/mockito.dart';
+import 'package:mockito/annotations.dart';
 
-abstract class HttpClient {
-  Future<void>? request({
-    required String? url,
-    required String? method,
-    Map body,
-  });
-}
+import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
+
+import 'package:login_page_with_mobx/data/usecases/usecases.dart';
+import 'package:login_page_with_mobx/data/http/http.dart';
+
+
+
 
 @GenerateMocks([HttpClientSpy])
 class HttpClientSpy extends Mock implements HttpClient {}
 
-class RemoteAuthentication {
-  final HttpClient? httpClient;
-  final String? url;
 
-  RemoteAuthentication({required this.httpClient, required this.url});
-
-  Future<void>? auth(AuthenticationParams params) async {
-    await httpClient!.request(url: url, method: 'post', body: params.toJson());
-  }
-}
 
 void main() {
   HttpClientSpy? httpClient;
