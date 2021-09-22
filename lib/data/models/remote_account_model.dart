@@ -1,4 +1,6 @@
-import 'package:login_page_with_mobx/domain/entities/account_entity.dart';
+import '/data/http/http.dart';
+
+import '/domain/entities/entities.dart';
 
 class RemoteAccountModel {
 
@@ -6,7 +8,14 @@ class RemoteAccountModel {
 
   RemoteAccountModel(this.accessToken);
   
-  factory RemoteAccountModel.fromJson(Map? json) => new RemoteAccountModel(json!['accessToken']);
+  factory RemoteAccountModel.fromJson(Map? json) {
+
+    if (!json!.containsKey('accessToken')) {
+      throw HttpError.invalidData;
+    }
+
+    return new RemoteAccountModel(json['accessToken']);
+  } 
 
   AccountEntity toAccountEntity() => new AccountEntity(accessToken);
 }
