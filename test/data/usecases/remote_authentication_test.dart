@@ -12,10 +12,10 @@ class HttpClientSpy extends Mock implements HttpClient {}
 
 void main() {
 
-  String? url;
-  HttpClientSpy? httpClient;
-  RemoteAuthentication? sut;
-  AuthenticationParams? params;
+  String url;
+  HttpClientSpy httpClient;
+  RemoteAuthentication sut;
+  AuthenticationParams params;
 
   setUp(() {
     url = faker.internet.httpUrl();
@@ -30,45 +30,45 @@ void main() {
     final name = faker.person.name();
     final accessToken = faker.guid.guid();
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
 
-    await sut!.auth(params!);
+    await sut.auth(params);
 
-    verify(httpClient!.request(url: url, method: 'post', body: {'email': params!.email, 'password': params!.password}));
+    verify(httpClient.request(url: url, method: 'post', body: {'email': params.email, 'password': params.password}));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 400', () async {
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.badRequest);
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.badRequest);
 
-    final future = sut!.auth(params!);
+    final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.unexpected));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 404', () async {
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.notFound);
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.notFound);
 
-    final future = sut!.auth(params!);
+    final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.unexpected));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 500', () async {
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.serverError);
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.serverError);
 
-    final future = sut!.auth(params!);
+    final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.unexpected));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 401', () async {
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.unauthorized);
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenThrow(HttpError.unauthorized);
 
-    final future = sut!.auth(params!);
+    final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.invalidCredentials));
   });
@@ -78,18 +78,18 @@ void main() {
     final name = faker.person.name();
     final accessToken = faker.guid.guid();
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
 
-    final account = await sut!.auth(params!);
+    final account = await sut.auth(params);
 
     expect(account.token, accessToken);
   });
 
   test('Should throw UnexpectedError if HttpClient returns 200 with invalid data', () async {
 
-    when(httpClient!.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'invalid_key': 'invalid_value'});
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'invalid_key': 'invalid_value'});
 
-    final future = sut!.auth(params!);
+    final future = sut.auth(params);
 
     expect(future, throwsA(DomainError.unexpected));
 

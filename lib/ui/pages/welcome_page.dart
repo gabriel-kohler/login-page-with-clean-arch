@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:login_page_with_mobx/utils/app_routes.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({Key key}) : super(key: key);
 
   //const Color(0xFFFD6713),
   //const Color(0xFFE87653),
