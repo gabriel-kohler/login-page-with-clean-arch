@@ -5,7 +5,6 @@ import 'package:http/http.dart';
 
 import '/data/http/http.dart';
 
-
 class HttpAdapter implements HttpClient {
   final Client client;
 
@@ -21,9 +20,20 @@ class HttpAdapter implements HttpClient {
       'content-type': 'application/json',
       'accept': 'application/json',
     };
-    final jsonBody = body != null ? jsonEncode(body) : null;
+    final jsonBody = _jsonBody(body);
     final response = await client.post(Uri.parse(url), headers: headers, body: jsonBody);
 
+    return _handleResponse(response);
+  }
+
+  String _jsonBody(Map body) {
+    if (body != null) {
+      return jsonEncode(body);
+    }
+    return null;
+  }
+
+  Map _handleResponse(Response response) {
     if (response.statusCode == 200) {
       return response.body.isNotEmpty ? jsonDecode(response.body) : null;
     } else {
