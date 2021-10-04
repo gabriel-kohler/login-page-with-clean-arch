@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:login_page_with_mobx/ui/components/login_form.dart';
+
+import '/ui/components/components.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -31,34 +32,34 @@ class LoginPage extends StatelessWidget {
                   ),
                 ],
               ),
-              Text('Ou entre com'),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 15),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.facebook,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 25, vertical: 15),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.facebook,
-                        size: 50,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Text('Ou entre com'),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       margin: const EdgeInsets.symmetric(
+              //           horizontal: 25, vertical: 15),
+              //       child: IconButton(
+              //         onPressed: () {},
+              //         icon: Icon(
+              //           Icons.facebook,
+              //           size: 50,
+              //         ),
+              //       ),
+              //     ),
+              //     Container(
+              //       margin: const EdgeInsets.symmetric(
+              //           horizontal: 25, vertical: 15),
+              //       child: IconButton(
+              //         onPressed: () {},
+              //         icon: Icon(
+              //           Icons.facebook,
+              //           size: 50,
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),

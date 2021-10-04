@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:login_page_with_mobx/ui/pages/login_page.dart';
-import 'package:login_page_with_mobx/ui/pages/welcome_page.dart';
-import 'package:login_page_with_mobx/utils/app_routes.dart';
 
-void main() {
-  runApp(MyApp());
-}
+import '/utils/utils.dart';
 
-class MyApp extends StatelessWidget {
+import '/ui/pages/pages.dart';
+
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Auth with Clean arch, using unit tests and design patterns',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.orange,

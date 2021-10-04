@@ -11,22 +11,23 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    
+
     return Scaffold(
       body: Container(
         height: size.height,
         child: Form(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                alignment: Alignment.centerLeft,
+                alignment: Alignment.center,
                 padding: EdgeInsets.only(
-                  left: 30,
+                  top: 30,
                   bottom: 30,
                 ),
                 child: Text(
-                  'Welcome!',
+                  'Bem-vindo!', 
                   style: GoogleFonts.sourceCodePro(
                     fontSize: 50,
                   ),
@@ -34,6 +35,8 @@ class WelcomePage extends StatelessWidget {
               ),
               Center(
                 child: Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(right: 17),
                   height: 400,
                   child: Image.asset('assets/img/imgwelcome.png'),
                 ),
@@ -52,7 +55,8 @@ class WelcomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: InkWell(
-                  onTap: () => Navigator.of(context).pushNamed(AppRoutes.LOGIN_PAGE),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.LOGIN_PAGE),
                   child: Center(
                     child: Text(
                       'Sign In',
