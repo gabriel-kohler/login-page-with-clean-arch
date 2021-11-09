@@ -49,7 +49,7 @@ class LoginPage extends StatelessWidget {
                                   color: const Color(0xFFE87653),
                                 ),
                                 labelText: 'Email',
-                                errorText: snapshot.data,
+                                errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                   borderSide: BorderSide(
