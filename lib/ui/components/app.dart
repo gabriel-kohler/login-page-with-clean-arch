@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/utils/utils.dart';
-
 import '/ui/pages/pages.dart';
 
 class App extends StatelessWidget {
@@ -13,10 +11,11 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      routes: {
-        AppRoutes.WELCOME_PAGE: (context) => WelcomePage(),
-        AppRoutes.LOGIN_PAGE: (context) => LoginPage(),
-      },
+      home: LoginPage(),
+      // routes: {
+      //   AppRoutes.WELCOME_PAGE: (context) => WelcomePage(),
+      //   AppRoutes.LOGIN_PAGE: (context) => LoginPage(null),
+      // },
     );
   }
 }
