@@ -120,7 +120,7 @@ class LoginPage extends StatelessWidget {
                           builder: (context, snapshot) {
                             return InkWell(
                               key: ValueKey('login'),
-                              onTap: snapshot.data == true ? (){} : null,
+                              onTap: snapshot.data == true ? loginPresenter.auth : null,
                               child: Center(
                                 child: Text(
                                   'Login',

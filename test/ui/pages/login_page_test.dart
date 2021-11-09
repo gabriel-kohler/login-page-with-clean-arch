@@ -162,4 +162,21 @@ void main() {
     expect(loginButton.onTap, null);
   });
 
+  testWidgets('Should call Authentication on form submit', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    isFormValidController.add(true);
+    await tester.pump();
+
+    final loginButton = tester.widget<InkWell>(
+      find.byKey(
+        ValueKey('login'),
+      ),
+    );
+
+    loginButton.onTap();    
+
+    verify(loginPresenter.auth()).called(1);
+  });
+
 }
