@@ -115,18 +115,23 @@ class LoginPage extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: InkWell(
-                          key: ValueKey('login'),
-                          onTap: null,
-                          child: Center(
-                            child: Text(
-                              'Login',
-                              style: GoogleFonts.ptSans(
-                                fontSize: 20,
-                                color: Colors.white,
+                        child: StreamBuilder<bool>(
+                          stream: loginPresenter.isFormValidStream,
+                          builder: (context, snapshot) {
+                            return InkWell(
+                              key: ValueKey('login'),
+                              onTap: snapshot.data == true ? (){} : null,
+                              child: Center(
+                                child: Text(
+                                  'Login',
+                                  style: GoogleFonts.ptSans(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            );
+                          }
                         ),
                       ),
                     ],
