@@ -68,7 +68,7 @@ class LoginPage extends StatelessWidget {
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        child: StreamBuilder<Object>(
+                        child: StreamBuilder<String>(
                           stream: loginPresenter.passwordErrorStream,
                           builder: (context, snapshot) {
                             return TextFormField(
@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
                                   color: const Color(0xFFE87653),
                                 ),
                                 labelText: 'Senha',
-                                errorText: snapshot.data,
+                                errorText: snapshot.data?.isEmpty == true ? null : snapshot.data,
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15),
                                   borderSide: BorderSide(
