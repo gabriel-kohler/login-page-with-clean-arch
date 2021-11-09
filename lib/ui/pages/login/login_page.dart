@@ -68,22 +68,28 @@ class LoginPage extends StatelessWidget {
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).viewInsets.bottom,
                         ),
-                        child: TextFormField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            prefixIcon: Icon(
-                              Icons.lock,
-                              color: const Color(0xFFE87653),
-                            ),
-                            labelText: 'Senha',
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(
-                                color: const Color(0xFFE87653),
+                        child: StreamBuilder<Object>(
+                          stream: loginPresenter.passwordErrorStream,
+                          builder: (context, snapshot) {
+                            return TextFormField(
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                prefixIcon: Icon(
+                                  Icons.lock,
+                                  color: const Color(0xFFE87653),
+                                ),
+                                labelText: 'Senha',
+                                errorText: snapshot.data,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide(
+                                    color: const Color(0xFFE87653),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          onChanged: loginPresenter.validatePassword,
+                              onChanged: loginPresenter.validatePassword,
+                            );
+                          }
                         ),
                       ),
                       Container(
