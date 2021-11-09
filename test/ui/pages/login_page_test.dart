@@ -145,7 +145,21 @@ void main() {
     );
 
     expect(loginButton.onTap, isNotNull);
+  });
 
+  testWidgets('Should disable button if form is invalid', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    isFormValidController.add(false);
+    await tester.pump();
+    
+    final loginButton = tester.widget<InkWell>(
+      find.byKey(
+        ValueKey('login'),
+      ),
+    );
+
+    expect(loginButton.onTap, null);
   });
 
 }
