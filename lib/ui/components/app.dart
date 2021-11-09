@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: LoginPage(),
+      home: LoginPage(null),
       // routes: {
       //   AppRoutes.WELCOME_PAGE: (context) => WelcomePage(),
       //   AppRoutes.LOGIN_PAGE: (context) => LoginPage(null),

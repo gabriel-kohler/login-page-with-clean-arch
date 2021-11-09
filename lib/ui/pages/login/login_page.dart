@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '/ui/pages/login/login.dart';
+
 class LoginPage extends StatelessWidget {
+
+  final LoginPresenter loginPresenter;
+
+  LoginPage(this.loginPresenter);
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +53,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          onChanged: loginPresenter.validateEmail,
                         ),
                       ),
                       Container(
@@ -70,6 +77,7 @@ class LoginPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                          onChanged: loginPresenter.validatePassword,
                         ),
                       ),
                       Container(
@@ -118,7 +126,7 @@ class LoginPage extends StatelessWidget {
                 children: [
                   Text('Não tem uma conta?'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: null,
                     child: Text('Cadastre-se aqui'),
                   ),
                 ],
