@@ -35,6 +35,8 @@ class LoginPage extends StatelessWidget {
                   );
                 },
               );
+            } else {
+              Navigator.of(context).pop();
             }
           },
         );
