@@ -21,22 +21,44 @@ void main() {
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
 
-  Future<void> loadPage(WidgetTester tester) async {
-    loginPresenter = LoginPresenterSpy();
-
+  void initStreams() {
     emailErrorController = StreamController<String>();
     passwordErrorController = StreamController<String>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
     mainErrorController = StreamController<String>();
+  }
 
+  void mockStreams() {
     when(loginPresenter.emailErrorStream).thenAnswer((_) => emailErrorController.stream);
     when(loginPresenter.passwordErrorStream).thenAnswer((_) => passwordErrorController.stream);
     when(loginPresenter.isFormValidStream).thenAnswer((_) => isFormValidController.stream);
     when(loginPresenter.isLoadingStream).thenAnswer((_) => isLoadingController.stream);
     when(loginPresenter.mainErrorStream).thenAnswer((_) => mainErrorController.stream);
+  }
 
+  void closeStreams() {
+    emailErrorController.close();
+    passwordErrorController.close();
+    isFormValidController.close();
+    isLoadingController.close();
+    mainErrorController.close();
+  }
 
+  InkWell loginButtonTester(WidgetTester tester) {
+    return tester.widget<InkWell>(
+      find.byKey(
+        ValueKey('login'),
+      ),
+    );
+  }
+
+  Future<void> loadPage(WidgetTester tester) async {
+    loginPresenter = LoginPresenterSpy();
+
+    initStreams();
+    mockStreams();
+    
     final loginPage = MaterialApp(
       home: LoginPage(loginPresenter),
     );
@@ -46,11 +68,7 @@ void main() {
   }
 
   tearDown(() {
-    emailErrorController.close();
-    passwordErrorController.close();
-    isFormValidController.close();
-    isLoadingController.close();
-    mainErrorController.close();
+    closeStreams();
   });
   
   testWidgets('Should LoginPage with correct initial state', (WidgetTester tester) async {
@@ -71,15 +89,8 @@ void main() {
     final passwordTextChildren = find.descendant(of: find.bySemanticsLabel('Senha'), matching: find.byType(Text));
     expect(passwordTextChildren, findsOneWidget);
 
-    final loginButton = tester.widget<InkWell>(
-      find.byKey(
-        ValueKey('login'),
-      ),
-    );
-
+    final loginButton = loginButtonTester(tester);
     expect(loginButton.onTap, null);
-    expect(find.byType(CircularProgressIndicator), findsNothing);
-
   });
 
   testWidgets('Should call validate with correct values', (WidgetTester tester) async {
@@ -147,11 +158,7 @@ void main() {
     isFormValidController.add(true);
     await tester.pump();
 
-    final loginButton = tester.widget<InkWell>(
-      find.byKey(
-        ValueKey('login'),
-      ),
-    );
+    final loginButton = loginButtonTester(tester);
 
     expect(loginButton.onTap, isNotNull);
   });
@@ -162,11 +169,7 @@ void main() {
     isFormValidController.add(false);
     await tester.pump();
     
-    final loginButton = tester.widget<InkWell>(
-      find.byKey(
-        ValueKey('login'),
-      ),
-    );
+    final loginButton = loginButtonTester(tester);
 
     expect(loginButton.onTap, null);
   });
@@ -177,11 +180,7 @@ void main() {
     isFormValidController.add(true);
     await tester.pump();
 
-    final loginButton = tester.widget<InkWell>(
-      find.byKey(
-        ValueKey('login'),
-      ),
-    );
+    final loginButton = loginButtonTester(tester);
 
     loginButton.onTap(); 
 
