@@ -23,9 +23,16 @@ class StreamLoginPresenter {
 }
 
 void main() {
+
+  StreamLoginPresenter sut;
+  ValidationSpy validation;
+
+  setUp(() {
+    validation = ValidationSpy();
+    sut = StreamLoginPresenter(validation: validation);
+  });
+
   test('Should call Validation with correct values', () {
-    final validation = ValidationSpy();
-    final sut = StreamLoginPresenter(validation: validation);
 
     final email = faker.internet.email();
 
@@ -34,4 +41,5 @@ void main() {
     verify(validation.validate(field: 'email', value: email)).called(1);
     
   });
+
 }
