@@ -23,7 +23,7 @@ class LoginPage extends StatelessWidget {
                 context: context,
                 barrierDismissible: false,
                 builder: (BuildContext context) {
-                  return SimpleDialog(                    
+                  return SimpleDialog(
                     children: [
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -38,6 +38,17 @@ class LoginPage extends StatelessWidget {
             } else {
               Navigator.of(context).pop();
             }
+          },
+        );
+        loginPresenter.mainErrorStream.listen(
+          (mainError) {
+            if (mainError.isNotEmpty)
+              return ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.red[900],
+                  content: Text('login error'),
+                ),
+              );
           },
         );
         return Container(

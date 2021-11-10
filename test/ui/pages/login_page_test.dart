@@ -17,6 +17,7 @@ void main() {
 
   StreamController<String> emailErrorController;
   StreamController<String> passwordErrorController;
+  StreamController<String> mainErrorController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
 
@@ -27,11 +28,13 @@ void main() {
     passwordErrorController = StreamController<String>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
+    mainErrorController = StreamController<String>();
 
     when(loginPresenter.emailErrorStream).thenAnswer((_) => emailErrorController.stream);
     when(loginPresenter.passwordErrorStream).thenAnswer((_) => passwordErrorController.stream);
     when(loginPresenter.isFormValidStream).thenAnswer((_) => isFormValidController.stream);
     when(loginPresenter.isLoadingStream).thenAnswer((_) => isLoadingController.stream);
+    when(loginPresenter.mainErrorStream).thenAnswer((_) => mainErrorController.stream);
 
 
     final loginPage = MaterialApp(
@@ -47,7 +50,7 @@ void main() {
     passwordErrorController.close();
     isFormValidController.close();
     isLoadingController.close();
-
+    mainErrorController.close();
   });
   
   testWidgets('Should LoginPage with correct initial state', (WidgetTester tester) async {
@@ -204,6 +207,17 @@ void main() {
     await tester.pump();
 
     expect(find.byType(CircularProgressIndicator), findsNothing);
+  });
+
+  testWidgets('Should error message if Authentication fails', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    mainErrorController.add('login error');
+    await tester.pump();
+
+    expect(find.byType(SnackBar), findsOneWidget);
+    expect(find.text('login error'), findsOneWidget);
+
   });
 
 }
