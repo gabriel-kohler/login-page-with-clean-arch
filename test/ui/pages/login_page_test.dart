@@ -220,4 +220,12 @@ void main() {
 
   });
 
+  testWidgets('Should LoginPage close streams', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    addTearDown(() {
+      verify(loginPresenter.dispose()).called(1);
+    });
+  });
+
 }

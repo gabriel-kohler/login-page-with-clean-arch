@@ -3,10 +3,22 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '/ui/pages/login/login.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   final LoginPresenter loginPresenter;
 
   LoginPage(this.loginPresenter);
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.loginPresenter.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +28,7 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       //appBar: AppBar(),
       body: Builder(builder: (context) {
-        loginPresenter.isLoadingStream.listen(
+        widget.loginPresenter.isLoadingStream.listen(
           (isLoading) {
             if (isLoading) {
               return showDialog(
@@ -40,7 +52,7 @@ class LoginPage extends StatelessWidget {
             }
           },
         );
-        loginPresenter.mainErrorStream.listen(
+        widget.loginPresenter.mainErrorStream.listen(
           (mainError) {
             if (mainError.isNotEmpty)
               return ScaffoldMessenger.of(context).showSnackBar(
@@ -74,7 +86,7 @@ class LoginPage extends StatelessWidget {
                             bottom: MediaQuery.of(context).viewInsets.bottom,
                           ),
                           child: StreamBuilder<String>(
-                              stream: loginPresenter.emailErrorStream,
+                              stream: widget.loginPresenter.emailErrorStream,
                               builder: (context, snapshot) {
                                 return TextFormField(
                                   keyboardType: TextInputType.emailAddress,
@@ -94,7 +106,7 @@ class LoginPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  onChanged: loginPresenter.validateEmail,
+                                  onChanged: widget.loginPresenter.validateEmail,
                                 );
                               }),
                         ),
@@ -105,7 +117,7 @@ class LoginPage extends StatelessWidget {
                             bottom: MediaQuery.of(context).viewInsets.bottom,
                           ),
                           child: StreamBuilder<String>(
-                              stream: loginPresenter.passwordErrorStream,
+                              stream: widget.loginPresenter.passwordErrorStream,
                               builder: (context, snapshot) {
                                 return TextFormField(
                                   obscureText: true,
@@ -125,7 +137,7 @@ class LoginPage extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  onChanged: loginPresenter.validatePassword,
+                                  onChanged: widget.loginPresenter.validatePassword,
                                 );
                               }),
                         ),
@@ -153,12 +165,12 @@ class LoginPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: StreamBuilder<bool>(
-                              stream: loginPresenter.isFormValidStream,
+                              stream: widget.loginPresenter.isFormValidStream,
                               builder: (context, snapshot) {
                                 return InkWell(
                                   key: ValueKey('login'),
                                   onTap: snapshot.data == true
-                                      ? loginPresenter.auth
+                                      ? widget.loginPresenter.auth
                                       : null,
                                   child: Center(
                                     child: Text(
