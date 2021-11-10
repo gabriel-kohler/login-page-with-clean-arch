@@ -17,7 +17,7 @@ class LoginState {
 
 class StreamLoginPresenter {
 
-  Stream<String> get emailErrorStream => _controller.stream.map((state) => state.emailError);
+  Stream<String> get emailErrorStream => _controller.stream.map((state) => state.emailError).distinct();
 
   final Validation validation;
   final StreamController<LoginState> _controller = StreamController<LoginState>.broadcast();
@@ -58,10 +58,27 @@ void main() {
 
     when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn('email error');
 
+    sut.emailErrorStream.listen(
+      expectAsync1(
+        (error) {
+          expect(error, 'email error');
+        },
+      ),
+    );
+
     expectLater(sut.emailErrorStream, emits('email error'));
 
     sut.validateEmail(email);
+    sut.validateEmail(email);
 
+  });
+
+  test('Should emit no error if Validation return null', () {
+    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn(null);
+
+    expectLater(sut.emailErrorStream, emits(null));
+
+    sut.validateEmail(email);
   });
 
 }
