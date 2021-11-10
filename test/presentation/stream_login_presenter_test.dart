@@ -1,38 +1,12 @@
-import 'dart:async';
-
 import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
-import 'package:meta/meta.dart';
 
-abstract class Validation {
-  String validate({@required String field, @required String value});
-}
+import 'package:login_page_with_mobx/presentation/presenters/presenters.dart';
+import 'package:login_page_with_mobx/presentation/dependencies/dependencies.dart';
+
 
 class ValidationSpy extends Mock implements Validation {}
-
-class LoginState {
-  String emailError;
-}
-
-class StreamLoginPresenter {
-
-  Stream<String> get emailErrorStream => _controller.stream.map((state) => state.emailError).distinct();
-
-  final Validation validation;
-  final StreamController<LoginState> _controller = StreamController<LoginState>.broadcast();
-
-  final _state = LoginState();
-
-  StreamLoginPresenter({@required this.validation});
-
-  void validateEmail(String email) {
-    _state.emailError = validation.validate(field: 'email', value: email);
-    _controller.add(_state);
-  }
-
-  
-}
 
 void main() {
 
@@ -46,7 +20,7 @@ void main() {
     email = faker.internet.email();
   });
 
-  test('Should call Validation with correct values', () { 
+  test('Should call email validation with correct values', () { 
 
     sut.validateEmail(email);
 
@@ -54,7 +28,7 @@ void main() {
     
   });
 
-  test('Should emit email error if Validation fails', () {
+  test('Should emit email error if email validation fails', () {
 
     when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn('email error');
 
@@ -73,7 +47,7 @@ void main() {
 
   });
 
-  test('Should emit no error if Validation return null', () {
+  test('Should emit no error if email validation return success', () {
     when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn(null);
 
     expectLater(sut.emailErrorStream, emits(null));
