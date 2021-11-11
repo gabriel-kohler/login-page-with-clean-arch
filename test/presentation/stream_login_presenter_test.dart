@@ -89,4 +89,22 @@ void main() {
     verify(validation.validate(field: 'password', value: password));
   });
 
+  test('Should emits passwordError if password is invalid', () {
+
+    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn('password error');
+
+    sut.passwordErrorStream.listen(
+      expectAsync1(
+        (error) {
+          expect(error, 'password error');
+        },
+      ),
+    );
+
+    expectLater(sut.passwordErrorStream, emits('password error'));
+
+    sut.validatePassword(password);
+
+  });
+
 }

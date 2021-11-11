@@ -6,13 +6,17 @@ import '/presentation/dependencies/dependencies.dart';
 
 class LoginState {
   String emailError;
+  String passwordError;
+
   bool get isValid => false;
 }
 
 class StreamLoginPresenter {
 
   Stream<String> get emailErrorStream => _controller.stream.map((state) => state.emailError).distinct();
+  Stream<String> get passwordErrorStream => _controller.stream.map((state) => state.passwordError);
   Stream<bool> get isFormValidStream => _controller.stream.map((state) => state.isValid).distinct();
+  
 
   final Validation validation;
   final StreamController<LoginState> _controller = StreamController<LoginState>.broadcast();
@@ -27,7 +31,8 @@ class StreamLoginPresenter {
   }
 
   void validatePassword(String password) {
-    validation.validate(field: 'password', value: password);
+    _state.passwordError = validation.validate(field: 'password', value: password);
+    _controller.add(_state);
   }
 
   
