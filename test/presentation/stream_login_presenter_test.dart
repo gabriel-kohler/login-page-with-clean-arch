@@ -136,5 +136,64 @@ void main() {
     sut.validatePassword(password);
     
   });
+  
+  test('Should emits form invalid if any field is invalid', () {
+
+    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn('email error');
+    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn('password error');
+
+    sut.emailErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, 'email error');
+      }),
+    );
+
+    sut.passwordErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, 'password error');
+      }),
+    );
+    sut.isFormValidStream.listen(
+    expectAsync1((isValid) { 
+      expect(isValid, false);
+    }),
+  );
+
+  expectLater(sut.isFormValidStream, emits(false));
+
+  sut.validateEmail(email);
+  sut.validatePassword(password);
+
+  });
+
+  test('Should emits form invalid if email field is valid and password field is invalid', () {
+
+    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn(null);
+    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn('password error');
+
+    sut.emailErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, null);
+      }),
+    );
+
+    sut.passwordErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, 'password error');
+      }),
+    );
+    sut.isFormValidStream.listen(
+    expectAsync1((isValid) { 
+      expect(isValid, false);
+    }),
+  );
+
+  expectLater(sut.isFormValidStream, emits(false));
+
+  sut.validateEmail(email);
+  sut.validatePassword(password);
+
+
+  });
 
 }
