@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:meta/meta.dart';
 
 import '/presentation/dependencies/dependencies.dart';
+import '/domain/usecases/usecases.dart';
 
 
 class LoginState {
@@ -21,11 +22,12 @@ class StreamLoginPresenter {
   
 
   final Validation validation;
+  final Authentication authentication;
   final StreamController<LoginState> _controller = StreamController<LoginState>.broadcast();
 
   final _state = LoginState();
 
-  StreamLoginPresenter({@required this.validation});
+  StreamLoginPresenter({@required this.validation, @required this.authentication});
 
   void validateEmail(String email) {
     _state.email = email;
@@ -39,6 +41,12 @@ class StreamLoginPresenter {
     _controller.add(_state);
   }
 
-  
+  Future<void> auth() async {
+
+    final params = AuthenticationParams(email: _state.email, password: _state.password);
+
+    await authentication.auth(params);
+  }
+
 }
 

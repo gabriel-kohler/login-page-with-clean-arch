@@ -31,6 +31,7 @@ dependencies:
   google_fonts: ^2.1.0
   http:
   provider:
+  equatable:
 
 dev_dependencies:
   flutter_test:
