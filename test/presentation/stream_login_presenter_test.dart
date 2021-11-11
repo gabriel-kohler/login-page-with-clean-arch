@@ -224,7 +224,6 @@ void main() {
   sut.validateEmail(email);
   sut.validatePassword(password);
 
-
   });
 
 }

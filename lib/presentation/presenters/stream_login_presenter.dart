@@ -5,6 +5,8 @@ import '/presentation/dependencies/dependencies.dart';
 
 
 class LoginState {
+  String email;
+  String password;
   String emailError;
   String passwordError;
 
@@ -26,11 +28,13 @@ class StreamLoginPresenter {
   StreamLoginPresenter({@required this.validation});
 
   void validateEmail(String email) {
+    _state.email = email;
     _state.emailError = validation.validate(field: 'email', value: email);
     _controller.add(_state);
   }
 
   void validatePassword(String password) {
+    _state.password = password;
     _state.passwordError = validation.validate(field: 'password', value: password);
     _controller.add(_state);
   }
