@@ -166,6 +166,7 @@ void main() {
 
   });
 
+  
   test('Should emits form invalid if email field is valid and password field is invalid', () {
 
     when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn(null);
@@ -192,7 +193,6 @@ void main() {
 
   sut.validateEmail(email);
   sut.validatePassword(password);
-
 
   });
 
