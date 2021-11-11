@@ -101,10 +101,40 @@ void main() {
       ),
     );
 
+    sut.isFormValidStream.listen(
+      expectAsync1((isValid){
+        expect(isValid, false);
+      }),
+    );
+
     expectLater(sut.passwordErrorStream, emits('password error'));
 
     sut.validatePassword(password);
+    sut.validatePassword(password);
 
+  });
+
+  test('Should emits null if password is valid', () {
+
+    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn(null);
+
+    sut.passwordErrorStream.listen(
+      expectAsync1((error) {
+        expect(error, null);
+      }),
+    );
+
+    sut.isFormValidStream.listen(
+      expectAsync1((isValid){
+        expect(isValid, false);
+      }),
+    );
+
+    expectLater(sut.passwordErrorStream, emits(null));
+    
+    sut.validatePassword(password);
+    sut.validatePassword(password);
+    
   });
 
 }
