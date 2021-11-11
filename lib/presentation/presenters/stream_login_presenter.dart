@@ -10,7 +10,7 @@ class LoginState {
   String emailError;
   String passwordError;
 
-  bool get isValid => false;
+  bool get isValid => email != null && password != null && emailError == null && passwordError == null ? true : false;
 }
 
 class StreamLoginPresenter {
