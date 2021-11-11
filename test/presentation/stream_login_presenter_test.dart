@@ -196,4 +196,35 @@ void main() {
 
   });
 
+  
+  test('Should emits form invalid if email field is invalid and password field is valid', () {
+
+    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn('email error');
+    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn(null);
+
+    sut.emailErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, 'email error');
+      }),
+    );
+
+    sut.passwordErrorStream.listen(
+      expectAsync1((error) { 
+        expect(error, null);
+      }),
+    );
+    sut.isFormValidStream.listen(
+    expectAsync1((isValid) { 
+      expect(isValid, false);
+    }),
+  );
+
+  expectLater(sut.isFormValidStream, emits(false));
+
+  sut.validateEmail(email);
+  sut.validatePassword(password);
+
+
+  });
+
 }
