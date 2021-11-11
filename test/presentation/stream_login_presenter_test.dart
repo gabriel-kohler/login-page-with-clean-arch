@@ -1,10 +1,13 @@
 import 'package:faker/faker.dart';
-import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
+import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
+import 'package:login_page_with_mobx/domain/entities/account_entity.dart';
+
 import 'package:login_page_with_mobx/presentation/presenters/presenters.dart';
 import 'package:login_page_with_mobx/presentation/dependencies/dependencies.dart';
+
 
 
 class ValidationSpy extends Mock implements Validation {}
@@ -270,5 +273,18 @@ void main() {
 
     verify(authentication.auth(params)).called(1);
   });
+
+  test('Should emit correct events on Authentication success', () async {
+
+    when(authentication.auth(any)).thenAnswer((_) async => AccountEntity('any value'));
+
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    await sut.auth();
+
+  });  
 
 }
