@@ -13,11 +13,13 @@ void main() {
   StreamLoginPresenter sut;
   ValidationSpy validation;
   String email;
+  String password;
 
   setUp(() {
     validation = ValidationSpy();
     sut = StreamLoginPresenter(validation: validation);
     email = faker.internet.email();
+    password = faker.internet.password();
   });
 
   test('Should call email validation with correct values', () { 
@@ -78,6 +80,13 @@ void main() {
 
     sut.validateEmail(email);
     sut.validateEmail(email);
+  });
+
+  test('Should call password validation with correct values', () {
+
+    sut.validatePassword(password);
+
+    verify(validation.validate(field: 'password', value: password));
   });
 
 }
