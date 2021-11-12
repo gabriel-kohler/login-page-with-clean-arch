@@ -1,4 +1,5 @@
 import 'package:faker/faker.dart';
+import 'package:login_page_with_mobx/domain/helpers/domain_error.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -22,6 +23,14 @@ void main() {
   String email;
   String password;
 
+  PostExpectation mockValidationCall({String field}) => when(validation.validate(field: field != null ? field : anyNamed('field'), value: anyNamed('value')));
+
+  void mockValidation({String field, String value}) => mockValidationCall(field: field).thenReturn(value);
+
+  PostExpectation mockAuthenticationCall() => when(authentication.auth(any));
+
+  void mockAuthentication() => mockAuthenticationCall().thenAnswer((_) async => AccountEntity('any value'));
+
   setUp(() {
     validation = ValidationSpy();
     authentication = AuthenticationSpy();
@@ -40,7 +49,7 @@ void main() {
 
   test('Should emit email error if email validation fails', () {
 
-    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn('email error');
+    mockValidation(value: 'email error');
 
     sut.emailErrorStream.listen(
       expectAsync1(
@@ -66,7 +75,8 @@ void main() {
   });
 
   test('Should emit null if email validation return success', () {
-    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn(null);
+
+    mockValidation();
 
     sut.emailErrorStream.listen(
       expectAsync1(
@@ -99,7 +109,7 @@ void main() {
 
   test('Should emits passwordError if password is invalid', () {
 
-    when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn('password error');
+    mockValidation(value: 'password error');
 
     sut.passwordErrorStream.listen(
       expectAsync1(
@@ -124,6 +134,8 @@ void main() {
 
   test('Should emits null if password is valid', () {
 
+    mockValidation();
+
     when(validation.validate(field: anyNamed('field'), value: anyNamed('value'))).thenReturn(null);
 
     sut.passwordErrorStream.listen(
@@ -147,8 +159,8 @@ void main() {
   
   test('Should emits form invalid if any field is invalid', () {
 
-    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn('email error');
-    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn('password error');
+    mockValidation(field: 'email', value: 'email error');
+    mockValidation(field: 'password', value: 'password error');
 
     sut.emailErrorStream.listen(
       expectAsync1((error) { 
@@ -177,8 +189,8 @@ void main() {
   
   test('Should emits form invalid if email field is valid and password field is invalid', () {
 
-    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn(null);
-    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn('password error');
+    mockValidation(field: 'email', );
+    mockValidation(field: 'password', value: 'password error');
 
     sut.emailErrorStream.listen(
       expectAsync1((error) { 
@@ -206,9 +218,9 @@ void main() {
 
   
   test('Should emits form invalid if email field is invalid and password field is valid', () {
-
-    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn('email error');
-    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn(null);
+    
+    mockValidation(field: 'email', value: 'email error');
+    mockValidation(field: 'password');
 
     sut.emailErrorStream.listen(
       expectAsync1((error) { 
@@ -236,8 +248,8 @@ void main() {
 
   test('Should emits form valid if any field is valid', () async {
 
-    when(validation.validate(field: 'email', value: anyNamed('value'))).thenReturn(null);
-    when(validation.validate(field: 'password', value: anyNamed('value'))).thenReturn(null);
+    mockValidation(field: 'email');
+    mockValidation(field: 'password');
 
     sut.emailErrorStream.listen(
       expectAsync1((error) { 
@@ -276,7 +288,7 @@ void main() {
 
   test('Should emit correct events on Authentication success', () async {
 
-    when(authentication.auth(any)).thenAnswer((_) async => AccountEntity('any value'));
+    mockAuthentication();
 
     sut.validateEmail(email);
     sut.validatePassword(password);
@@ -285,6 +297,6 @@ void main() {
 
     await sut.auth();
 
-  });  
+  });
 
 }
