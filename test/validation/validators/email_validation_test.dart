@@ -46,4 +46,12 @@ void main() {
     expect(error, 'Campo inválido');
   });
 
+  test('Should return null if email is valid', () {
+    
+    final email = faker.internet.email();
+    final error = sut.validate(value: email);
+
+    expect(error, null);
+  });
+
 }
