@@ -29,6 +29,9 @@ void main() {
   List<FieldValidation> validations;
   ValidationComposite sut;
 
+  void mockValidation1(String error) => when(validation1.validate(value: anyNamed('value'))).thenReturn(error);
+  void mockValidation2(String error) => when(validation1.validate(value: anyNamed('value'))).thenReturn(error);
+
   setUp(() {
     validation1 = FieldValidationSpy();
     validation2 = FieldValidationSpy();
@@ -36,7 +39,9 @@ void main() {
     sut = ValidationComposite(validations: validations);
 
     when(validation1.field).thenReturn('any_field');
+    mockValidation1(null);
     when(validation2.field).thenReturn('any_field');
+    mockValidation2(null);
   });
 
   test('Should call validate with correct values', () {
@@ -47,11 +52,8 @@ void main() {
   });
 
   test('Should return null if all validations returns null', () {
-    when(validation1.validate(value: anyNamed('value'))).thenReturn(null);
-    when(validation1.validate(value: anyNamed('value'))).thenReturn('');
-
-    when(validation2.validate(value: anyNamed('value'))).thenReturn(null);
-    when(validation2.validate(value: anyNamed('value'))).thenReturn('');
+    mockValidation1('');
+    mockValidation2('');
 
     final error = sut.validate(field: 'any_field', value: 'any_value');
 
