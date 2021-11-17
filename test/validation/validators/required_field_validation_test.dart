@@ -1,23 +1,6 @@
 import 'package:test/test.dart';
-import 'package:meta/meta.dart';
 
-abstract class FieldValidation {
-  String get field;
-  String validate({@required String value});
-}
-
-class RequiredFieldValidation implements FieldValidation {
-  final String field;
-
-  RequiredFieldValidation(this.field);
-
-  @override
-  String validate({String value}) {
-    return value?.isNotEmpty == true ? null : 'Campo obrigatório';
-  }
-
-
-}
+import 'package:login_page_with_mobx/validation/validators/validators.dart';
 
 void main() {
 
