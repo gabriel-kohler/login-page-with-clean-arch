@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.login_page_with_mobx">
+    package="com.example.login_page_with_clean_arch">
    <application
-        android:label="login_page_with_mobx"
+        android:label="login_page_with_clean_arch"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
