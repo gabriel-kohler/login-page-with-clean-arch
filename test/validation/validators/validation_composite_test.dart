@@ -2,33 +2,9 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
 import 'package:login_page_with_mobx/validation/dependencies/dependencies.dart';
-
-import 'package:login_page_with_mobx/presentation/dependencies/dependencies.dart';
+import 'package:login_page_with_mobx/validation/validators/validators.dart';
 
 class FieldValidationSpy extends Mock implements FieldValidation {}
-
-class ValidationComposite implements Validation {
-
-  final List<FieldValidation> validations;
-
-  ValidationComposite({this.validations});
-
-  @override
-  String validate({String field, String value}) {
-    String error;
-    for (final validation in validations.where((v) => v.field == field)) {
-      error = validation.validate(value: value);
-      if (error?.isNotEmpty == true) {
-        return error;
-      } else {
-        return null;
-      }
-    }
-    return error;
-  }
-
-}
-
 
 void main() {
 
