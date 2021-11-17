@@ -16,7 +16,7 @@ class ValidationComposite implements Validation {
   @override
   String validate({String field, String value}) {
     String error;
-    for (final validation in validations) {
+    for (final validation in validations.where((v) => v.field == field)) {
       error = validation.validate(value: value);
       if (error?.isNotEmpty == true) {
         return error;
@@ -34,21 +34,26 @@ void main() {
 
   FieldValidationSpy validation1;
   FieldValidationSpy validation2;
+  FieldValidationSpy validation3;
   List<FieldValidation> validations;
   ValidationComposite sut;
 
   void mockValidation1(String error) => when(validation1.validate(value: anyNamed('value'))).thenReturn(error);
   void mockValidation2(String error) => when(validation2.validate(value: anyNamed('value'))).thenReturn(error);
+  void mockValidation3(String error) => when(validation3.validate(value: anyNamed('value'))).thenReturn(error);
 
 
   setUp(() {
     validation1 = FieldValidationSpy();
     validation2 = FieldValidationSpy();
-    validations = [validation1, validation2];
+    validation3 = FieldValidationSpy();
+    validations = [validation1, validation2, validation3];
 
     when(validation1.field).thenReturn('other_field');
     mockValidation1(null);
     when(validation2.field).thenReturn('any_field');
+    mockValidation2(null);
+    when(validation3.field).thenReturn('any_field');
     mockValidation2(null);
 
     sut = ValidationComposite(validations: validations);
@@ -71,13 +76,14 @@ void main() {
     expect(error, null);
   });
 
-  test('Should return first error if validation return error', () {
+  test('Should returns the first error of the correct field', () {
     mockValidation1('error1');
     mockValidation2('error2');
+    mockValidation3('error3');
 
     final error = sut.validate(field: 'any_field', value: 'any_value');
 
-    expect(error, 'error1');
+    expect(error, 'error2');
   });
 
 }
