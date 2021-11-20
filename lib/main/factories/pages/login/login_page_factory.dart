@@ -16,7 +16,8 @@ Widget makeLoginPage() {
 
   final client = Client();
   final httpClient = HttpAdapter(client);
-  final url = 'https://fordevs.herokuapp.com/api/login';
+  //final url = 'https://fordevs.herokuapp.com/api/login';
+  final url = 'https://firebaselink.com';
 
   final authentication = RemoteAuthentication(httpClient: httpClient, url: url);
 

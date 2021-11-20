@@ -22,11 +22,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //final screenHeight = (size.height - MediaQuery.of(context).padding.top);
     final _formKey = GlobalKey<FormState>();
-
     return Scaffold(
-      //appBar: AppBar(),
       body: Builder(
         builder: (context) {
           widget.loginPresenter.isLoadingStream.listen(
@@ -55,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           );
           widget.loginPresenter.mainErrorStream.listen(
             (mainError) {
-              if (mainError.isNotEmpty)
+              if (mainError != null)
                 return ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.red[900],
@@ -64,32 +61,40 @@ class _LoginPageState extends State<LoginPage> {
                 );
             },
           );
-          return SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 80),
-                LoginHeader(),
-                Container(
-                  height: 260,
-                  child: Provider(
-                    create: (_) => widget.loginPresenter,
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          EmailInput(),
-                          PasswordInput(),
-                          ForgotPasswordButton(),
-                          LoginButton(),
-                        ],
+          return LayoutBuilder(
+            builder: (_, constraints) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(height: constraints.maxHeight * 0.1),
+                  Container(
+                    height: constraints.maxHeight * 0.5,
+                    child: LoginHeader(),
+                  ),
+                  Container(
+                    height: constraints.maxHeight * 0.4,
+                    child: Provider(
+                      create: (_) => widget.loginPresenter,
+                      child: Form(
+                        key: _formKey,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              EmailInput(),
+                              PasswordInput(),
+                              ForgotPasswordButton(),
+                              LoginButton(),
+                              SizedBox(height: constraints.maxHeight * 0.02),
+                              SignUpButton(),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SignUpButton(),
-              ],
-            ),
+                ],
+              );
+            },
           );
         },
       ),

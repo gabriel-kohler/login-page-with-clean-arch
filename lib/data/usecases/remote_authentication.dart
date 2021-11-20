@@ -7,7 +7,7 @@ import '/domain/usecases/authentication.dart';
 
 import '/data/http/http.dart';
 
-class RemoteAuthentication {
+class RemoteAuthentication implements Authentication {
   final HttpClient httpClient;
   final String url;
 
@@ -39,5 +39,9 @@ class RemoteAuthenticationParams {
       RemoteAuthenticationParams(
           email: params.email, password: params.password);
 
-  Map toJson() => {'email': email, 'password': password};
+  Map toJson() => {
+    'email': email,
+    'password': password,
+    'returnSecureToken': 'true',
+  };
 }
