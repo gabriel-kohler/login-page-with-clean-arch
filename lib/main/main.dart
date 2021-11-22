@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:login_page_with_mobx/utils/app_routes.dart';
+
+import '/main/factories/factories.dart';
 
 import '/ui/components/components.dart';
-
-import '/main/factories/pages/login/login.dart';
+import '/utils/utils.dart';
 
 void main() {
   runApp(App());
