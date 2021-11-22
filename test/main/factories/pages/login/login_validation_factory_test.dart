@@ -9,9 +9,9 @@ void main() {
     final validations = makeLoginValidations();
 
     expect(validations, [
+      RequiredFieldValidation('email'),
       EmailValidation('email'),
       RequiredFieldValidation('password'),
-      RequiredFieldValidation('email'),
       ],
     );
 

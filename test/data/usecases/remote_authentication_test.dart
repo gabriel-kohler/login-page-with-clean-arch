@@ -30,11 +30,11 @@ void main() {
     final name = faker.person.name();
     final accessToken = faker.guid.guid();
 
-    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'idToken': accessToken, 'name': name});
 
     await sut.auth(params);
 
-    verify(httpClient.request(url: url, method: 'post', body: {'email': params.email, 'password': params.password}));
+    verify(httpClient.request(url: url, method: 'post', body: {'email': params.email, 'password': params.password, 'returnSecureToken': 'true',}));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 400', () async {
@@ -78,7 +78,7 @@ void main() {
     final name = faker.person.name();
     final accessToken = faker.guid.guid();
 
-    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'accessToken': accessToken, 'name': name});
+    when(httpClient.request(url: anyNamed('url'), method: anyNamed('method'), body: anyNamed('body'))).thenAnswer((_) async => {'idToken': accessToken, 'name': name});
 
     final account = await sut.auth(params);
 
