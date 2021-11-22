@@ -32,7 +32,7 @@ dependencies:
   http:
   provider:
   equatable:
-  get:
+  get: ^4.3.8
 
 dev_dependencies:
   flutter_test:

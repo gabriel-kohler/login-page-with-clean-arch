@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '/main/factories/factories.dart';
 
@@ -8,6 +9,7 @@ import '/ui/components/components.dart';
 import '/utils/utils.dart';
 
 void main() {
+  Provider.debugCheckInvalidValueType = null;
   runApp(App());
 }
 

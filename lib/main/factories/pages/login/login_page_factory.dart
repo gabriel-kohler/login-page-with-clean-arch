@@ -4,6 +4,6 @@ import '/ui/pages/pages.dart';
 
 LoginPage makeLoginPage() {
   return LoginPage(
-    makeLoginPresenter(),
+    makeGetxLoginPresenter(),
   );
 }

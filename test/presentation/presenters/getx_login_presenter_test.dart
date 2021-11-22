@@ -17,7 +17,7 @@ void main() {
 
   Validation validation;
   AuthenticationSpy authentication;
-  StreamLoginPresenter sut;
+  GetxLoginPresenter sut;
   String email;
   String password;
 
@@ -34,7 +34,7 @@ void main() {
   setUp(() {
     validation = ValidationSpy();
     authentication = AuthenticationSpy();
-    sut = StreamLoginPresenter(validation: validation, authentication: authentication);
+    sut = GetxLoginPresenter(validation: validation, authentication: authentication);
     email = faker.internet.email();
     password = faker.internet.password();
     mockValidation();
@@ -263,24 +263,6 @@ void main() {
     
     mockAuthentication();
 
-    sut.emailErrorStream.listen(
-      expectAsync1((error) { 
-        expect(error, null);
-      }),
-    );
-
-    sut.passwordErrorStream.listen(
-      expectAsync1((error) { 
-        expect(error, null);
-      }),
-    );
-
-    sut.isFormValidStream.listen(
-      expectAsync1((isValid) { 
-        expect(isValid, true);
-      }),
-    );
-
     expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
 
     sut.validateEmail(email);
@@ -299,6 +281,8 @@ void main() {
       }),
     );
 
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
     sut.validateEmail(email);
     sut.validatePassword(password);
     await sut.auth();
@@ -314,21 +298,12 @@ void main() {
       }),
     );
 
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
     sut.validateEmail(email);
     sut.validatePassword(password);
     await sut.auth();
     
   });
-
-  test('Should not emit after dispose', () {
-
-    expectLater(sut.emailErrorStream, neverEmits(null));
-
-    sut.dispose();
-    sut.validateEmail(email);
-
-  });
-
-
 
 }
