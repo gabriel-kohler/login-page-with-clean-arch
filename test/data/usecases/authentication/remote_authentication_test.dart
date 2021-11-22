@@ -1,6 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:login_page_with_mobx/data/usecases/remote_authentication.dart';
+import 'package:login_page_with_mobx/data/usecases/authentication/remote_authentication.dart';
 import 'package:login_page_with_mobx/domain/helpers/domain_error.dart';
 import 'package:login_page_with_mobx/domain/usecases/authentication.dart';
 import 'package:mockito/mockito.dart';
