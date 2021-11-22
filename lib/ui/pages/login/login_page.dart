@@ -14,6 +14,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  void _hideKeyboard() {
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -61,40 +66,43 @@ class _LoginPageState extends State<LoginPage> {
                 );
             },
           );
-          return LayoutBuilder(
-            builder: (_, constraints) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                  Container(
-                    height: constraints.maxHeight * 0.5,
-                    child: LoginHeader(),
-                  ),
-                  Container(
-                    height: constraints.maxHeight * 0.4,
-                    child: Provider(
-                      create: (_) => widget.loginPresenter,
-                      child: Form(
-                        key: _formKey,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              EmailInput(),
-                              PasswordInput(),
-                              ForgotPasswordButton(),
-                              LoginButton(),
-                              SizedBox(height: constraints.maxHeight * 0.02),
-                              SignUpButton(),
-                            ],
+          return GestureDetector(
+            onTap: _hideKeyboard,
+            child: LayoutBuilder(
+              builder: (_, constraints) {
+                return Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: constraints.maxHeight * 0.1),
+                    Container(
+                      height: constraints.maxHeight * 0.5,
+                      child: LoginHeader(),
+                    ),
+                    Container(
+                      height: constraints.maxHeight * 0.4,
+                      child: Provider(
+                        create: (_) => widget.loginPresenter,
+                        child: Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                EmailInput(),
+                                PasswordInput(),
+                                ForgotPasswordButton(),
+                                LoginButton(),
+                                SizedBox(height: constraints.maxHeight * 0.02),
+                                SignUpButton(),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           );
         },
       ),
