@@ -49,7 +49,7 @@ void main() {
           'content-type': 'application/json',
           'accept': 'application/json',
         },
-        body: jsonEncode({"any_key": "any_value"}),
+        body: jsonEncode({"any_key": "any_value", "returnSecureToken" : "true"}),
       ));
     });
 

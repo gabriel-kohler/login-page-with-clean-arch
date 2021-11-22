@@ -36,10 +36,18 @@ class HttpAdapter implements HttpClient {
 
   String _jsonBody(Map body) {
     if (body != null) {
-      return jsonEncode(body);
+      //final newBody = _firebaseAdapter(body);
+      final newBody = FirebaseAdapter.fromHttpAdapter(body).toFirebase();
+      print(newBody);
+      return jsonEncode(newBody);
     }
     return null;
   }
+
+  // Map _firebaseAdapter(Map body) {
+  //   body['returnSecureToken'] = 'true';
+  //   return body;
+  // }
 
   Map _handleResponse(Response response) {
     if (response.statusCode == 200) {
@@ -57,5 +65,18 @@ class HttpAdapter implements HttpClient {
     } else {
       throw HttpError.serverError;
     }
+  }
+}
+
+class FirebaseAdapter {
+  final Map body;
+
+  FirebaseAdapter(this.body);
+
+  factory FirebaseAdapter.fromHttpAdapter(Map body) => FirebaseAdapter(body);
+
+  Map toFirebase() {
+    body['returnSecureToken'] = 'true';
+    return body;
   }
 }

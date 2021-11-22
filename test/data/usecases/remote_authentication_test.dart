@@ -34,7 +34,7 @@ void main() {
 
     await sut.auth(params);
 
-    verify(httpClient.request(url: url, method: 'post', body: {'email': params.email, 'password': params.password, 'returnSecureToken': 'true',}));
+    verify(httpClient.request(url: url, method: 'post', body: {'email': params.email, 'password': params.password}));
   });
 
   test('Should throw UnexpectedError if HttpClient returns 400', () async {
