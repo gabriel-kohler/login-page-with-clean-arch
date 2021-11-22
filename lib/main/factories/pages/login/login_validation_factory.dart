@@ -1,12 +1,15 @@
-import 'package:login_page_with_mobx/presentation/dependencies/dependencies.dart';
-
+import '/presentation/dependencies/dependencies.dart';
+import '/validation/dependencies/dependencies.dart';
 import '/validation/validators/validators.dart';
 
 Validation makeLoginValidation() {
-  final emailValidation = EmailValidation('email');
-  final passwordFieldValidation = RequiredFieldValidation('password');
-  final emailFieldValidation = RequiredFieldValidation('email');
+  return ValidationComposite(validations: makeLoginValidations());
+}
 
-  return ValidationComposite(validations: [emailValidation, passwordFieldValidation, emailFieldValidation]);
-
+List<FieldValidation> makeLoginValidations() {
+  return [
+    EmailValidation('email'),
+    RequiredFieldValidation('password'),
+    RequiredFieldValidation('email'),
+  ];
 }
