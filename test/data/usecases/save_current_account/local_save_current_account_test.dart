@@ -52,4 +52,12 @@ void main() {
 
   });
 
+  test('Should throw UnexpectedError if SaveSecureCurrentAccount throws', () async {
+    when(saveSecureCacheStorageSpy.saveSecure(key: anyNamed('key'), value: anyNamed('value'))).thenThrow(Exception());
+
+    final future = sut.save(account: account);
+
+    expect(future, throwsA(DomainError.unexpected));
+  });
+
 }
