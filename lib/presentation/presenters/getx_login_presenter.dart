@@ -60,16 +60,15 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       password: _password,
     );
 
-    _isLoading.value = true;
-
     try {
+      _isLoading.value = true;
       final account = await authentication.auth(params); 
       await saveCurrentAccount.save(account: account);
     } on DomainError catch (error) {
       _mainError.value = error.errorMessage;
+      _isLoading.value = false;
     }
 
-    _isLoading.value = false;
   }
 
   void dispose() {}

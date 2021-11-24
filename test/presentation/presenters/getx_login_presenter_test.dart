@@ -312,7 +312,7 @@ void main() {
     
     mockAuthentication();
 
-    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+    expectLater(sut.isLoadingStream, emits(true));
 
     sut.validateEmail(email);
     sut.validatePassword(password);
