@@ -39,6 +39,10 @@ void main() {
 
   void mockAuthenticationError(DomainError error) => mockAuthenticationCall().thenThrow(error);
 
+  PostExpectation mockSaveCurrentAccountCall() => when(saveCurrentAccountSpy.save(account: anyNamed('account')));
+
+  void mockSaveCurrentAccountError() => mockSaveCurrentAccountCall().thenThrow(DomainError.unexpected);
+
   setUp(() {
 
     validation = ValidationSpy();
@@ -287,8 +291,23 @@ void main() {
 
   });
 
-  
 
+  test('Should emit UnexpectedError if SaveCurrentAccount fails', () async {
+
+    mockSaveCurrentAccountError();
+
+    expectLater(sut.isLoadingStream, emitsInOrder([true, false]));
+
+    sut.mainErrorStream.listen(
+      expectAsync1((mainError) { 
+        expect(mainError, 'Ocorreu um erro. Tente novamente em breve');
+      }),
+    );
+
+    await sut.auth();
+    
+  });
+  
   test('Should emit correct events if Authentication return success', () async {
     
     mockAuthentication();
