@@ -40,6 +40,8 @@ dev_dependencies:
   mockito: 3.0.2
   test:
   faker:
+  flutter_secure_storage: 3.3.5
+  localstorage:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
