@@ -3,7 +3,6 @@
 ![(img1) login-page-with-clean-arch](https://user-images.githubusercontent.com/85637999/142924246-a43715d0-c084-4754-b84c-8b95507938c9.png)
 ![(img2) login-page-with-clean-arch](https://user-images.githubusercontent.com/85637999/142924253-ab467a32-6473-49f0-8fea-bd6345a62ae0.png)
 
-
 # Princípios
 - Single Responsibility Principle (SRP)
 - Open Closed Principle (OCP)

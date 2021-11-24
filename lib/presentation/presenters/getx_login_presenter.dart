@@ -4,14 +4,18 @@ import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 import '/domain/helpers/helpers.dart';
-import '/domain/usecases/authentication.dart';
+import '/domain/usecases/usecases.dart';
+
+import '/presentation/dependencies/dependencies.dart';
+
 import '/ui/pages/login/login.dart';
 
 
 class GetxLoginPresenter extends GetxController implements LoginPresenter {
 
-  final validation;
-  final authentication;
+  final Validation validation;
+  final Authentication authentication;
+  final SaveCurrentAccount saveCurrentAccount;
 
   String _email;
   String _password;
@@ -22,7 +26,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   var _isFormValid = false.obs;
   var _isLoading = false.obs;
 
-  GetxLoginPresenter({@required this.validation, @required this.authentication});
+  GetxLoginPresenter({@required this.validation, @required this.authentication, @required this.saveCurrentAccount});
 
   Stream<String> get emailErrorStream => _emailError.stream;
   Stream<String> get passwordErrorStream => _passwordError.stream;
@@ -59,7 +63,8 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
     _isLoading.value = true;
 
     try {
-      await authentication.auth(params); 
+      final account = await authentication.auth(params); 
+      await saveCurrentAccount.save(account: account);
     } on DomainError catch (error) {
       _mainError.value = error.errorMessage;
     }
