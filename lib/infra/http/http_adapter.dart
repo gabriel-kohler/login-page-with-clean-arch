@@ -36,7 +36,6 @@ class HttpAdapter implements HttpClient {
 
   String _jsonBody(Map body) {
     if (body != null) {
-      //final newBody = _firebaseAdapter(body);
       final newBody = FirebaseAdapter.fromHttpAdapter(body).toFirebase();
       print(newBody);
       return jsonEncode(newBody);

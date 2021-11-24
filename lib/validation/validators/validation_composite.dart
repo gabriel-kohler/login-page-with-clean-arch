@@ -15,8 +15,6 @@ class ValidationComposite implements Validation {
       error = validation.validate(value: value);
       if (error?.isNotEmpty == true) {
         return error;
-      } else {
-        return null;
       }
     }
     return error;

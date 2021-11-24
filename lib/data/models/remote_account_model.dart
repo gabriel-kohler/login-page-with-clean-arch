@@ -13,7 +13,6 @@ class RemoteAccountModel {
     if (!json.containsKey('idToken')) {
       throw HttpError.invalidData;
     }
-    print(json['idToken']);
     return new RemoteAccountModel(json['idToken']);
   }
 
