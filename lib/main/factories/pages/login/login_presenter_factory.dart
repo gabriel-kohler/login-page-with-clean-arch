@@ -15,6 +15,6 @@ LoginPresenter makeGetxLoginPresenter() {
   return GetxLoginPresenter(
     validation: makeLoginValidation(),
     authentication: makeRemoteAuthentication(),
-    saveCurrentAccount: null,
+    saveCurrentAccount: makeSaveCurrentAccount(),
   );
 }

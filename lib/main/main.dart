@@ -14,9 +14,7 @@ void main() {
 }
 
 class App extends StatelessWidget {
-
   final ThemeData theme = ThemeData();
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -27,9 +25,13 @@ class App extends StatelessWidget {
       getPages: [
         GetPage(name: AppRoutes.WELCOME_PAGE, page: makeWelcomePage),
         GetPage(name: AppRoutes.LOGIN_PAGE, page: makeLoginPage),
-      ],      
+        GetPage(
+          name: AppRoutes.HOME_PAGE,
+          page: () => const Scaffold(
+            body: const Text('HomePage'),
+          ),
+        ),
+      ],
     );
   }
 }
-
-
