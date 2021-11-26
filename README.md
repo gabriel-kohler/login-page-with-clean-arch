@@ -44,6 +44,7 @@
 - Faker
 - Meta
 - Git
+- Flutter Secure Storage
 
 # Features do Dart/Flutter
 - Classes
