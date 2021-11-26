@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
+import 'package:login_page_with_mobx/utils/app_routes.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:login_page_with_mobx/ui/pages/login/login_presenter.dart';
@@ -59,8 +61,11 @@ void main() {
     initStreams();
     mockStreams();
     
-    final loginPage = MaterialApp(
-      home: LoginPage(loginPresenter),
+    final loginPage = GetMaterialApp(
+      initialRoute: AppRoutes.LOGIN_PAGE,
+      getPages: [
+        GetPage(name: AppRoutes.LOGIN_PAGE, page: () => LoginPage(loginPresenter)),
+      ],
     );
     await tester.pumpWidget(loginPage);
 
