@@ -4,34 +4,25 @@ import 'package:provider/provider.dart';
 import '/ui/pages/login/login.dart';
 import '/ui/components/login/login.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends StatelessWidget {
   final LoginPresenter loginPresenter;
 
   LoginPage(this.loginPresenter);
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-
-  void _hideKeyboard() {
-    FocusScope.of(context).requestFocus(FocusNode());
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    widget.loginPresenter.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
+
+    void _hideKeyboard() {
+    FocusScope.of(context).requestFocus(FocusNode());
+    }
+
     final _formKey = GlobalKey<FormState>();
+    
     return Scaffold(
       body: Builder(
         builder: (context) {
-          widget.loginPresenter.isLoadingStream.listen(
+          loginPresenter.isLoadingStream.listen(
             (isLoading) {
               if (isLoading) {
                 return showDialog(
@@ -55,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
               }
             },
           );
-          widget.loginPresenter.mainErrorStream.listen(
+          loginPresenter.mainErrorStream.listen(
             (mainError) {
               if (mainError != null)
                 return ScaffoldMessenger.of(context).showSnackBar(
@@ -81,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       height: constraints.maxHeight * 0.4,
                       child: Provider(
-                        create: (_) => widget.loginPresenter,
+                        create: (_) => loginPresenter,
                         child: Form(
                           key: _formKey,
                           child: SingleChildScrollView(
