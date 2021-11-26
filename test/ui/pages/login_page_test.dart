@@ -20,31 +20,36 @@ void main() {
   StreamController<String> emailErrorController;
   StreamController<String> passwordErrorController;
   StreamController<String> mainErrorController;
+  StreamController<String> navigateToController;
   StreamController<bool> isFormValidController;
   StreamController<bool> isLoadingController;
+  
 
   void initStreams() {
     emailErrorController = StreamController<String>();
     passwordErrorController = StreamController<String>();
+    mainErrorController = StreamController<String>();
+    navigateToController = StreamController<String>();
     isFormValidController = StreamController<bool>();
     isLoadingController = StreamController<bool>();
-    mainErrorController = StreamController<String>();
   }
 
   void mockStreams() {
     when(loginPresenter.emailErrorStream).thenAnswer((_) => emailErrorController.stream);
     when(loginPresenter.passwordErrorStream).thenAnswer((_) => passwordErrorController.stream);
+    when(loginPresenter.mainErrorStream).thenAnswer((_) => mainErrorController.stream);
+    when(loginPresenter.navigateToStream).thenAnswer((_) => navigateToController.stream);
     when(loginPresenter.isFormValidStream).thenAnswer((_) => isFormValidController.stream);
     when(loginPresenter.isLoadingStream).thenAnswer((_) => isLoadingController.stream);
-    when(loginPresenter.mainErrorStream).thenAnswer((_) => mainErrorController.stream);
   }
 
   void closeStreams() {
     emailErrorController.close();
     passwordErrorController.close();
+    mainErrorController.close();
+    navigateToController.close();
     isFormValidController.close();
     isLoadingController.close();
-    mainErrorController.close();
   }
 
   InkWell loginButtonTester(WidgetTester tester) {
@@ -65,10 +70,10 @@ void main() {
       initialRoute: AppRoutes.LOGIN_PAGE,
       getPages: [
         GetPage(name: AppRoutes.LOGIN_PAGE, page: () => LoginPage(loginPresenter)),
+        GetPage(name: '/any_route', page: () => Scaffold(body: Text('navigation test'))),
       ],
     );
     await tester.pumpWidget(loginPage);
-
 
   }
 
@@ -221,6 +226,17 @@ void main() {
 
     expect(find.byType(SnackBar), findsOneWidget);
     expect(find.text('login error'), findsOneWidget);
+
+  });
+
+  testWidgets('Should change page', (WidgetTester tester) async {
+    await loadPage(tester);
+
+    navigateToController.add('/any_route');
+    await tester.pumpAndSettle();
+
+    expect(Get.currentRoute, '/any_route');
+    expect(find.text('navigation test'), findsOneWidget);
 
   });
 

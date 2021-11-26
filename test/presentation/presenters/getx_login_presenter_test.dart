@@ -1,5 +1,6 @@
 import 'package:faker/faker.dart';
 import 'package:login_page_with_mobx/data/usecases/save_current_account/local_save_current_account.dart';
+import 'package:login_page_with_mobx/utils/app_routes.dart';
 
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
@@ -353,6 +354,22 @@ void main() {
     sut.validatePassword(password);
     await sut.auth();
     
+  });
+
+  test('Should change page on success', () async {
+
+    mockAuthentication();
+    
+    sut.validateEmail(email);
+    sut.validatePassword(password);
+
+    sut.navigateToStream.listen(
+      expectAsync1((page) { 
+        expect(page, AppRoutes.HOME_PAGE);
+      }),
+    );
+
+    await sut.auth();
   });
 
 }

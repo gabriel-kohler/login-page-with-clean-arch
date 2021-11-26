@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '/ui/pages/login/login.dart';
@@ -18,7 +19,7 @@ class LoginPage extends StatelessWidget {
     }
 
     final _formKey = GlobalKey<FormState>();
-    
+
     return Scaffold(
       body: Builder(
         builder: (context) {
@@ -57,6 +58,11 @@ class LoginPage extends StatelessWidget {
                 );
             },
           );
+          loginPresenter.navigateToStream.listen((page) {
+            if(page?.isNotEmpty == true) {
+              Get.offAllNamed(page);
+            }
+          });
           return GestureDetector(
             onTap: _hideKeyboard,
             child: LayoutBuilder(

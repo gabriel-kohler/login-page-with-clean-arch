@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:login_page_with_mobx/utils/app_routes.dart';
 import 'package:meta/meta.dart';
 
 import '/domain/helpers/helpers.dart';
@@ -23,6 +24,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   var _emailError = RxString(null);
   var _passwordError = RxString(null);
   var _mainError = RxString(null);
+  var _navigateTo = RxString(null);
   var _isFormValid = false.obs;
   var _isLoading = false.obs;
 
@@ -31,6 +33,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
   Stream<String> get emailErrorStream => _emailError.stream;
   Stream<String> get passwordErrorStream => _passwordError.stream;
   Stream<String> get mainErrorStream => _mainError.stream;
+  Stream<String> get navigateToStream => _navigateTo.stream;
   Stream<bool> get isFormValidStream => _isFormValid.stream;
   Stream<bool> get isLoadingStream => _isLoading.stream;
 
@@ -64,6 +67,7 @@ class GetxLoginPresenter extends GetxController implements LoginPresenter {
       _isLoading.value = true;
       final account = await authentication.auth(params); 
       await saveCurrentAccount.save(account: account);
+      _navigateTo.value = AppRoutes.HOME_PAGE;
     } on DomainError catch (error) {
       _mainError.value = error.errorMessage;
       _isLoading.value = false;
