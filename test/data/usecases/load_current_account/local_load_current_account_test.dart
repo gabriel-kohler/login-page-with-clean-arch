@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 import 'package:meta/meta.dart';
 
+import 'package:login_page_with_mobx/domain/helpers/helpers.dart';
 import 'package:login_page_with_mobx/domain/usecases/load_current_account.dart';
 import 'package:login_page_with_mobx/domain/entities/entities.dart';
 
@@ -19,8 +20,13 @@ class LocalLoadCurrentAccount implements LoadCurrentAccount {
   LocalLoadCurrentAccount({@required this.fetchSecureCacheStorage});
 
   Future<AccountEntity> load() async {
-    final token = await fetchSecureCacheStorage.fetch(key: 'token');
-    return AccountEntity(token);
+    try {
+      final token = await fetchSecureCacheStorage.fetch(key: 'token');
+      return AccountEntity(token);
+    } catch (error) {
+      throw DomainError.unexpected;
+    }
+    
   }
 }
 
@@ -52,6 +58,14 @@ void main() {
 
     expect(account, AccountEntity(token));
 
+  });
+
+  test('Should throw UnexpectedError if FetchSecureCacheStorage throws', () async {
+    when(fetchSecureCacheStorageSpy.fetch(key: anyNamed('key'))).thenThrow(Exception());
+
+    final future = sut.load();
+
+    expect(future, throwsA(DomainError.unexpected));
   });
 
 }
