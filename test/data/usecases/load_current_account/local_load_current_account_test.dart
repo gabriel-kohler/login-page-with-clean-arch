@@ -1,4 +1,3 @@
-import 'package:faker/faker.dart';
 import 'package:mockito/mockito.dart';
 import 'package:test/test.dart';
 
@@ -23,13 +22,20 @@ class LocalLoadCurrentAccount {
 
 void main() {
 
+  FetchSecureCacheStorage fetchSecureCacheStorageSpy;
+  LocalLoadCurrentAccount sut;
+
+  setUp(() {
+    fetchSecureCacheStorageSpy = FetchSecureCacheStorageSpy();
+    sut = LocalLoadCurrentAccount(fetchSecureCacheStorage: fetchSecureCacheStorageSpy);
+  });
+
   test('Should call FetchSecureCacheStorage with correct values', () async {
-    final fetchSecureCacheStorageSpy = FetchSecureCacheStorageSpy();
-    final sut = LocalLoadCurrentAccount(fetchSecureCacheStorage: fetchSecureCacheStorageSpy);
 
     await sut.load();
 
     verify(fetchSecureCacheStorageSpy.fetch(key: 'token'));
 
   });
+
 }
