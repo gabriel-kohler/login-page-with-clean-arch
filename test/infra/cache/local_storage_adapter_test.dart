@@ -54,4 +54,14 @@ void main() {
     });
   });
 
+  test('Should throw if fetch throws', () {
+
+    when(storage.read(key: anyNamed('key'))).thenThrow(Exception());
+
+    final future = sut.fetch(key: 'any_key');
+
+    expect(future, throwsA(TypeMatcher<Exception>()));
+
+  });
+
 }
