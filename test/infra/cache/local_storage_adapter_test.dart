@@ -17,6 +17,10 @@ void main() {
   mockSaveSecure() => when(storage.write(key: anyNamed('key'), value: anyNamed('value')));
   mockSaveSecureError() => mockSaveSecure().thenThrow(Exception());
 
+  mockFetchCall() => when(storage.read(key: anyNamed('key')));
+  mockFetchError() => mockFetchCall().thenThrow(Exception());
+  mockFetch() => mockFetchCall().thenAnswer((_) async => 'any_token');
+
   setUp(() {
     storage = FlutterSecureStorageSpy();
     sut = LocalStorageAdapter(secureStorage: storage);
@@ -56,7 +60,7 @@ void main() {
 
   test('Should throw if fetch throws', () {
 
-    when(storage.read(key: anyNamed('key'))).thenThrow(Exception());
+    mockFetchError();
 
     final future = sut.fetch(key: 'any_key');
 
@@ -65,7 +69,8 @@ void main() {
   });
 
   test('Should return correct value on success', () async {
-    when(storage.read(key: anyNamed('key'))).thenAnswer((_) async => 'any_token');
+
+    mockFetch();
 
     final account = await sut.fetch(key: 'any_key');
 
