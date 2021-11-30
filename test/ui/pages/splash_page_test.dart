@@ -3,46 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
+import 'package:login_page_with_mobx/ui/pages/pages.dart';
 import 'package:login_page_with_mobx/utils/app_routes.dart';
 import 'package:mockito/mockito.dart';
 
-abstract class SplashPresenter {
 
-  Stream<String> get navigateToStream;
-
-  Future<void> loadCurrentAccount();
-}
 
 class SplashPresenterSpy extends Mock implements SplashPresenter {}
 
-class SplashPage extends StatelessWidget {
 
-  final SplashPresenter splashPresenter;
-
-  SplashPage({@required this.splashPresenter});
-
-  @override
-  Widget build(BuildContext context) {
-    splashPresenter.loadCurrentAccount();
-
-    return Scaffold(
-      body: Builder(
-        builder: (context) {
-          splashPresenter.navigateToStream.listen((page) {
-            if (page?.isNotEmpty == true) {
-              Get.offAllNamed(page);
-            }
-          });
-          return Container(
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      ),
-    );
-  }
-}
 
 void main() {
 
