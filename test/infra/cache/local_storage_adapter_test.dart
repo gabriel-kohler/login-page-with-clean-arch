@@ -64,4 +64,12 @@ void main() {
 
   });
 
+  test('Should return correct value on success', () async {
+    when(storage.read(key: anyNamed('key'))).thenAnswer((_) async => 'any_token');
+
+    final account = await sut.fetch(key: 'any_key');
+
+    expect(account, 'any_token');
+  });
+
 }
