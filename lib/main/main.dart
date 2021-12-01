@@ -21,14 +21,17 @@ class App extends StatelessWidget {
       title: 'Flutter Auth with Clean arch, using unit tests and design patterns',
       debugShowCheckedModeBanner: false,
       theme: makeAppTheme(),
-      initialRoute: AppRoutes.WELCOME_PAGE,
+      initialRoute: AppRoutes.SPLASH_PAGE,
       getPages: [
         GetPage(name: AppRoutes.WELCOME_PAGE, page: makeWelcomePage),
+        GetPage(name: AppRoutes.SPLASH_PAGE, page: makeSplashPage),
         GetPage(name: AppRoutes.LOGIN_PAGE, page: makeLoginPage),
         GetPage(
           name: AppRoutes.HOME_PAGE,
           page: () => const Scaffold(
-            body: const Text('HomePage'),
+            body: Center(
+              child: const Text('HomePage'),
+            ),
           ),
         ),
       ],

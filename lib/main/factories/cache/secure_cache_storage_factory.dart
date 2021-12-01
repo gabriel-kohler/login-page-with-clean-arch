@@ -10,3 +10,8 @@ SaveSecureCacheStorage makeSecureCacheStorage() {
   final flutterSecureStorage = FlutterSecureStorage();
   return LocalStorageAdapter(secureStorage: flutterSecureStorage);
 }
+
+FetchSecureCacheStorage makeLocalStorageAdapter() {
+  final secureStorage = FlutterSecureStorage();
+  return LocalStorageAdapter(secureStorage: secureStorage);
+}
