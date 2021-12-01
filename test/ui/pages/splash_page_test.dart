@@ -55,7 +55,7 @@ void main() {
 
     await loadPage(tester);
 
-    verify(splashPresenterSpy.loadCurrentAccount()).called(1);
+    verify(splashPresenterSpy.checkAccount()).called(1);
 
   });
 

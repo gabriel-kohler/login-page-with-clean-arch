@@ -11,7 +11,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    splashPresenter.loadCurrentAccount();
+    splashPresenter.checkAccount();
 
     return Scaffold(
       body: Builder(
