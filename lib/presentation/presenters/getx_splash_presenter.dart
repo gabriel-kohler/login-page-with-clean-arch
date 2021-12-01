@@ -23,13 +23,13 @@ class GetxSplashPresenter implements SplashPresenter {
       final account = await loadCurrentAccount.load();
 
       if (account == null) {
-        _navigateTo.value = AppRoutes.LOGIN_PAGE;
+        _navigateTo.value = AppRoutes.WELCOME_PAGE;
       } else {
         _navigateTo.value = AppRoutes.HOME_PAGE;
       }
 
     } catch (error) {
-      _navigateTo.value = AppRoutes.LOGIN_PAGE;
+      _navigateTo.value = AppRoutes.WELCOME_PAGE;
     }
     
   }

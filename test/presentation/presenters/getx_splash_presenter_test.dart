@@ -46,13 +46,13 @@ void main() {
 
   });
 
-  test('Should go to login page on null result', () async {
+  test('Should go to welcome page on null result', () async {
 
     mockLoadCurrentAccount(account: null);
 
     sut.navigateToStream.listen(
       expectAsync1((page) { 
-        expect(page, AppRoutes.LOGIN_PAGE);
+        expect(page, AppRoutes.WELCOME_PAGE);
       }),
     );
 
@@ -60,13 +60,13 @@ void main() {
     
   });
 
-  test('Should go to login page on error', () async {
+  test('Should go to welcome page on error', () async {
 
     mockLoadCurrentAccountError();
 
     sut.navigateToStream.listen(
       expectAsync1((page) { 
-        expect(page, AppRoutes.LOGIN_PAGE);
+        expect(page, AppRoutes.WELCOME_PAGE);
       }),
     );
 
