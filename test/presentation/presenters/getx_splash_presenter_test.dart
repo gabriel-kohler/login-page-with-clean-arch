@@ -1,49 +1,13 @@
-import 'package:get/get.dart';
-import 'package:login_page_with_mobx/utils/utils.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:test/test.dart';
-import 'package:meta/meta.dart';
 
-import 'package:login_page_with_mobx/ui/pages/pages.dart';
-import 'package:login_page_with_mobx/domain/usecases/load_current_account.dart';
-import 'package:login_page_with_mobx/data/usecases/load_current_account/load_current_account.dart';
-import 'package:login_page_with_mobx/domain/entities/account_entity.dart';
-import 'package:login_page_with_mobx/utils/app_routes.dart';
+import 'package:login_page_with_mobx/utils/utils.dart';
+import 'package:login_page_with_mobx/data/usecases/usecases.dart';
+import 'package:login_page_with_mobx/domain/entities/entities.dart';
+import 'package:login_page_with_mobx/presentation/presenters/presenters.dart';
 
 class LocalLoadCurrentAccountSpy extends Mock implements LocalLoadCurrentAccount {}
-
-class GetxSplashPresenter implements SplashPresenter {
-
-  final LoadCurrentAccount loadCurrentAccount;
-
-  var _navigateTo = RxString(null);
-
-  GetxSplashPresenter({@required this.loadCurrentAccount});
-
-  @override
-  Future<void> checkAccount() async {
-
-    try {
-
-      final account = await loadCurrentAccount.load();
-
-      if (account == null) {
-        _navigateTo.value = AppRoutes.LOGIN_PAGE;
-      } else {
-        _navigateTo.value = AppRoutes.HOME_PAGE;
-      }
-
-    } catch (error) {
-      _navigateTo.value = AppRoutes.LOGIN_PAGE;
-    }
-    
-  }
-
-  @override
-  Stream<String> get navigateToStream => _navigateTo.stream;
-
-}
 
 void main() {
 
