@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:login_page_with_mobx/utils/utils.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:test/test.dart';
@@ -23,11 +24,11 @@ class GetxSplashPresenter implements SplashPresenter {
   @override
   Future<void> checkAccount() async {
     final account = await loadCurrentAccount.load();
-    
-    if (account != null) {
-      if (account.token?.isNotEmpty == true) {
+
+    if (account == null) {
+      _navigateTo.value = AppRoutes.LOGIN_PAGE;
+    } else {
       _navigateTo.value = AppRoutes.HOME_PAGE;
-      }
     }
     
   }
@@ -41,6 +42,9 @@ void main() {
 
   LocalLoadCurrentAccountSpy loadCurrentAccountSpy;
   GetxSplashPresenter sut;
+
+  PostExpectation mockLoadCurrentAccountCall() => when(loadCurrentAccountSpy.load());
+  void mockLoadCurrentAccount({AccountEntity account}) => mockLoadCurrentAccountCall().thenAnswer((_) async => account);
 
   setUp(() {
     loadCurrentAccountSpy = LocalLoadCurrentAccountSpy();
@@ -56,7 +60,7 @@ void main() {
 
   test('Should go to home page on success', () async {
 
-    when(loadCurrentAccountSpy.load()).thenAnswer((_) async => AccountEntity('any_value'));
+    mockLoadCurrentAccount(account: AccountEntity('any_value'));
 
     sut.navigateToStream.listen(
       expectAsync1(
@@ -68,5 +72,19 @@ void main() {
 
     await sut.checkAccount();
 
+  });
+
+  test('Should go to login page on null result', () async {
+
+    mockLoadCurrentAccount(account: null);
+
+    sut.navigateToStream.listen(
+      expectAsync1((page) { 
+        expect(page, AppRoutes.LOGIN_PAGE);
+      }),
+    );
+
+    await sut.checkAccount();
+    
   });
 }
