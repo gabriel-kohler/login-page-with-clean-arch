@@ -51,7 +51,6 @@
 - Abstract Classes
 - Functions
 - Constants
-- Mixins
 - Extensions
 - Enums
 - Exceptions
